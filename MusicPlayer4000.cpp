@@ -177,7 +177,7 @@ public:
 
 			std::cout << "F1. Queue Song F2. Repeat Song F3. Randomize Repeat F4. Skip Current Song ";
 
-			std::string folderPath{ "C:\\MusicPlayer3000\\" + songQueue.front().getSongName() + ".wav" };
+			std::string folderPath{ "C:\\MusicPlayer4000\\" + songQueue.front().getSongName() + ".wav" };
 
 			std::wstring stemp = std::wstring(folderPath.begin(), folderPath.end());
 			LPCWSTR sw = stemp.c_str();
