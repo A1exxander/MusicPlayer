@@ -14,7 +14,7 @@
 #pragma comment(lib, "winmm.lib") // Used to tell the linker to include a DLL, where the dll lib goes in ""
 
 
-class MusicPlayer3000 {
+class MusicPlayer4000 {
 private:
 
 	bool keyboardInUse{ false };
@@ -118,7 +118,7 @@ public:
 
 		if (library.size() == 0) {
 
-			std::string folderPath{ "C:\\MusicPlayer3000\\" };
+			std::string folderPath{ "C:\\MusicPlayer4000\\" };
 		
 			std::cout << "\nNo songs in library! Add files to " << folderPath << " and each song name, artist name, and song length in seconds on a new line on Songs.txt";
 
@@ -329,7 +329,7 @@ int main()
 {
 	bool repeat{ true };
 
-	MusicPlayer3000 m;
+	MusicPlayer4000 m;
 
 	while (repeat) {
 
