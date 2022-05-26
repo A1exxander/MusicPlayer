@@ -47,10 +47,12 @@ public:
 
 	}
 
-	bool fileExists(const std::string& fileName)
-	{
+	bool fileExists(const std::string& fileName){
+		
 		std::ifstream file(fileName);
+		
 		return file.good();
+		
 	}
 
 	void createUserLibrary() {
