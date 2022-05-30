@@ -177,7 +177,7 @@ public:
 				std::cout << "\nYOU ARE LISTENING TO " << currentSongName << "\n";
 				int time{ 0 };
 
-				std::cout << "F7. Queue Song F8. Repeat Song F9. Randomize Repeat F10. Skip Current Song ";
+				std::cout << "F8. Repeat Song F9. Randomize Repeat F10. Skip Current Song ";
 
 				std::string folderPath{ "C:\\MusicPlayer4000\\" + currentSongName + ".wav" };
 
@@ -190,12 +190,7 @@ public:
 
 					if (keyboardInUse == false) {
 
-						if (GetAsyncKeyState(VK_F7) && (songQueue.front().getSongTime()) - time > 10) {
-							keyboardInUse = true;
-							std::thread t1(&MusicPlayer3000::getSongToQueue, this);
-							t1.detach();
-						}
-						else if (GetAsyncKeyState(VK_F8)) {
+						if (GetAsyncKeyState(VK_F8)) {
 							repeatSong = true;
 						}
 						else if (GetAsyncKeyState(VK_F9)) {
