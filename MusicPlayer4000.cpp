@@ -14,7 +14,7 @@
 #pragma comment(lib, "winmm.lib") // Used to tell the linker to include a DLL, where the dll lib goes in ""
 
 
-class MusicPlayer4000 {
+class MusicPlayer3000 {
 private:
 
 	bool keyboardInUse{ false };
@@ -26,7 +26,7 @@ public:
 	MusicPlayer3000() {
 
 		createUserLibrary();
-
+		
 	}
 
 	int menu() {
@@ -37,7 +37,7 @@ public:
 
 		}
 
-		std::cout << "\n1.View Library\n2.Exit\n\nChoice : ";
+		std::cout << "\n\n1. View Library\n2. Exit\n\nChoice : ";
 
 		int choice{};
 
@@ -47,12 +47,10 @@ public:
 
 	}
 
-	bool fileExists(const std::string& fileName){
-		
+	bool fileExists(const std::string& fileName)
+	{
 		std::ifstream file(fileName);
-		
 		return file.good();
-		
 	}
 
 	void createUserLibrary() {
@@ -81,6 +79,7 @@ public:
 
 			}
 		}
+
 		else {
 
 
@@ -115,7 +114,6 @@ public:
 	void printLibrary(const std::vector<Song>& library) {
 
 		
-
 		if (library.size() == 0) {
 
 			std::string folderPath{ "C:\\MusicPlayer4000\\" };
@@ -126,7 +124,7 @@ public:
 
 		for (auto i{ 0 }; i < library.size(); ++i) {
 
-			std::cout << "\n" << i + 1 << ". Song Name : " << library[i].getSongName() << "Artist name : " << library[i].getArtistName();
+			std::cout << "\n" << i + 1 << ". Song Name : " << library[i].getSongName() << " Artist name : " << library[i].getArtistName();
 
 		}
 
@@ -137,7 +135,7 @@ public:
 
 		printLibrary(library);
 
-		std::cout << "\n\n1. Play song\n2. Return\n\n Choice : ";
+		std::cout << "\n\n1. Play song\n2. Return\n\nChoice : ";
 
 		int choice{};
 
@@ -168,52 +166,61 @@ public:
 
 			bool repeatSong{ false };
 			bool randomizeSong{ false };
-			std::string currentSongName{ songQueue.front().getSongName() };
-
+			
 			system("CLS");
 
-			std::cout << "\nYOU ARE LISTENING TO " << currentSongName;
-			int time{ 0 };
+			while (!songQueue.empty()) {
 
-			std::cout << "F1. Queue Song F2. Repeat Song F3. Randomize Repeat F4. Skip Current Song ";
+				std::string currentSongName{ songQueue.front().getSongName() };
+				int currentSongTime{ songQueue.front().getSongTime() };
 
-			std::string folderPath{ "C:\\MusicPlayer4000\\" + songQueue.front().getSongName() + ".wav" };
+				std::cout << "\nYOU ARE LISTENING TO " << currentSongName << "\n";
+				int time{ 0 };
 
-			std::wstring stemp = std::wstring(folderPath.begin(), folderPath.end());
-			LPCWSTR sw = stemp.c_str();
+				std::cout << "F7. Queue Song F8. Repeat Song F9. Randomize Repeat F10. Skip Current Song ";
 
-			PlaySound(sw, NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+				std::string folderPath{ "C:\\MusicPlayer4000\\" + currentSongName + ".wav" };
 
-			while (time < songQueue.front().getSongTime()) {
+				std::wstring stemp = std::wstring(folderPath.begin(), folderPath.end());
+				LPCWSTR sw = stemp.c_str();
 
-				if (keyboardInUse == false) {
+				PlaySound(sw, NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
 
-					if (GetAsyncKeyState(VK_F1) && (songQueue.front().getSongTime()) - time > 10) {
-						keyboardInUse = true;
-						std::thread t1(&MusicPlayer3000::getSongToQueue, this);
-						t1.detach();
+				while (time < currentSongTime) {
+
+					if (keyboardInUse == false) {
+
+						if (GetAsyncKeyState(VK_F7) && (songQueue.front().getSongTime()) - time > 10) {
+							keyboardInUse = true;
+							std::thread t1(&MusicPlayer3000::getSongToQueue, this);
+							t1.detach();
+						}
+						else if (GetAsyncKeyState(VK_F8)) {
+							repeatSong = true;
+						}
+						else if (GetAsyncKeyState(VK_F9)) {
+							randomizeSong = true;
+						}
+						else if (GetAsyncKeyState(VK_F10)) {
+							time = 99999;
+						}
 					}
-					else if (GetAsyncKeyState(VK_F2)) {
-						repeatSong = true;
-					}
-					else if (GetAsyncKeyState(VK_F3)) {
-						randomizeSong = true;
-					}
-					else if (GetAsyncKeyState(VK_F4)) {
-						songQueue.pop();
-					}
+
+					Sleep(1000);
+					++time;
+
 				}
-				Sleep(1000);
-				++time;
 
-			}
+				if (repeatSong == true) {				
+					songQueue.push(songQueue.front());
+				}
 
-			if (repeatSong == false) {
+				else if (randomizeSong == true) {
+					songQueue.push(library[getRandomSong(library)]);
+				}
+
 				songQueue.pop();
-			}
-			else if (randomizeSong == true) {
-				songQueue.pop();
-				songQueue.push(library[getRandomSong(library)]);
+
 			}
 
 		}
@@ -237,9 +244,7 @@ public:
 
 		std::cin >> songChoice;
 
-		--songChoice;
-
-		while (songChoice < library.size() && songChoice != -1) {
+		while (songChoice > library.size() && songChoice != -1) {
 
 			std::cout << "\nEnter a number from 1 - " << library.size() << " or -1 to exit : ";
 
@@ -276,7 +281,7 @@ public:
 
 	void getSongToQueue() {
 
-		std::cout << "\n1.Select song by number \n2.Select song by name \n3. Return";
+		std::cout << "\n1. Select song by number \n2. Select song by name \n3. Return\n\nChoice : ";
 
 		int choice{};
 
@@ -289,12 +294,13 @@ public:
 		case 1: {
 
 			songChoice = selectSongWNumber(library);
+			break;
 
 		}
 		case 2: {
 
 			songChoice = selectSongWName(library);
-
+			break;
 		}
 
 		case 3: {
@@ -303,17 +309,16 @@ public:
 
 		}
 
+		}
 
 		if (songChoice >= 0) {
 
-				  songQueue.push(library[songChoice]);
-
-			  }
+			songQueue.push(library[songChoice]);
 
 		}
 
 		keyboardInUse = false;
-
+		
 	}
 
 	bool songQueueEmpty() {
@@ -329,7 +334,7 @@ int main()
 {
 	bool repeat{ true };
 
-	MusicPlayer4000 m;
+	MusicPlayer3000 m;
 
 	while (repeat) {
 
