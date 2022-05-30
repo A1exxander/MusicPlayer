@@ -14,7 +14,7 @@
 #pragma comment(lib, "winmm.lib") // Used to tell the linker to include a DLL, where the dll lib goes in ""
 
 
-class MusicPlayer3000 {
+class MusicPlayer4000 {
 private:
 
 	bool keyboardInUse{ false };
@@ -23,7 +23,7 @@ private:
 
 public:
 
-	MusicPlayer3000() {
+	MusicPlayer4000() {
 
 		createUserLibrary();
 		
@@ -88,7 +88,7 @@ public:
 			
 			files.open(filePath);
 
-			std::cout << "\nPlease place any .WAV files you would like to add to your library into " << filePath << " and place each song name, artist name, and song length in seconds on a new line";
+			std::cout << "\n\nPlease place any .WAV files you would like to add to your library into " << filePath << " and place each song name, artist name, and song length in seconds on a new line";
 
 			std::string enterTest{ " " };
 
