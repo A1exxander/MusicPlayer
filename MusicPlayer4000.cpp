@@ -343,11 +343,11 @@ public:
 
 };
 
-int main()
-{
-	bool repeat{ true };
+int main(){
 
 	MusicPlayer4000 m;
+	
+	bool repeat{ true };
 
 	while (repeat) {
 
