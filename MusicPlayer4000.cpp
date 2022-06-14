@@ -353,13 +353,11 @@ int main(){
 
 		switch (m.menu()) {
 
-		case 1: {
+		case 1: 
 			m.viewLibrary();
 			break;
-		}
-		default: {
+		default: 
 			repeat = false;
-		}
 		}
 
 	}
