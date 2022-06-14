@@ -28,7 +28,7 @@ public:
 
 	}
 
-	int menu() {
+	int menu() const {
 
 		while (keyboardInUse == true) { // incase we have queue song func or musicplayer func using the keyboard to keyboard
 
@@ -46,8 +46,7 @@ public:
 
 	}
 
-	bool fileExists(const std::string& fileName)
-	{
+	bool fileExists(const std::string& fileName) const {
 		std::ifstream file(fileName);
 		return file.good();
 	}
@@ -110,7 +109,7 @@ public:
 	}
 
 
-	void printLibrary(const std::vector<Song>& library) {
+	void printLibrary(const std::vector<Song>& library) const {
 
 
 		if (library.size() == 0) {
@@ -223,14 +222,15 @@ public:
 
 	}
 
-	int getRandomSong(const std::vector<Song>& library) {
+	int getRandomSong(const std::vector<Song>& library) const {
 
 		std::mt19937 mt;
 
 		return mt() % library.size();
 
 	}
-	int selectSongWNumber(const std::vector<Song>& library) {
+	
+	int selectSongWNumber(const std::vector<Song>& library) const {
 
 		std::cout << "\nSelect song number : ";
 
@@ -251,7 +251,7 @@ public:
 		return songChoice;
 
 	}
-	int selectSongWName(const std::vector<Song>& library) {
+	int selectSongWName(const std::vector<Song>& library) const {
 
 		std::string song{ " " };
 		std::cout << "\nEnter song name : ";
@@ -315,7 +315,7 @@ public:
 
 	}
 
-	bool songQueueEmpty() {
+	bool songQueueEmpty() const {
 
 		return songQueue.empty();
 
