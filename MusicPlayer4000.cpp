@@ -13,7 +13,6 @@
 
 #pragma comment(lib, "winmm.lib") // Used to tell the linker to include a DLL, where the dll lib goes in ""
 
-
 class MusicPlayer4000 {
 private:
 
@@ -26,7 +25,7 @@ public:
 	MusicPlayer4000() {
 
 		createUserLibrary();
-		
+
 	}
 
 	int menu() {
@@ -85,7 +84,7 @@ public:
 
 			std::filesystem::create_directories("C:\\MusicPlayer4000\\");
 			std::ifstream reader;
-			
+
 			files.open(filePath);
 
 			std::cout << "\n\nPlease place any .WAV files you would like to add to your library into " << filePath << " and place each song name, artist name, and song length in seconds on a new line";
@@ -113,11 +112,11 @@ public:
 
 	void printLibrary(const std::vector<Song>& library) {
 
-		
+
 		if (library.size() == 0) {
 
 			std::string folderPath{ "C:\\MusicPlayer4000\\" };
-		
+
 			std::cout << "\nNo songs in library! Add files to " << folderPath << " and each song name, artist name, and song length in seconds on a new line on Songs.txt";
 
 		}
@@ -143,17 +142,17 @@ public:
 
 		if (choice != 2) {
 
-		keyboardInUse = true; // lock access to prevent menu function from being able to proceed while were in songplayer or getsongtoqueues critical section using keyboard, if it was a sequential process or didnt use keyboard we wouldnt need this but since we will return to user menu which uses keyboard & both getsongqueue and songplayer use keyboard, we must lock
+			keyboardInUse = true; // lock access to prevent menu function from being able to proceed while were in songplayer or getsongtoqueues critical section using keyboard, if it was a sequential process or didnt use keyboard we wouldnt need this but since we will return to user menu which uses keyboard & both getsongqueue and songplayer use keyboard, we must lock
 
-				if (songQueue.empty()) {
-					std::thread t1(&MusicPlayer3000::songPlayer, this);
-					t1.detach();
-				}
-				else {
-					getSongToQueue();
-				}
-
+			if (songQueue.empty()) {
+				std::thread t1(&MusicPlayer4000::songPlayer, this);
+				t1.detach();
 			}
+			else {
+				getSongToQueue();
+			}
+
+		}
 
 	}
 
@@ -166,7 +165,7 @@ public:
 
 			bool repeatSong{ false };
 			bool randomizeSong{ false };
-			
+
 			system("CLS");
 
 			while (!songQueue.empty()) {
@@ -206,7 +205,7 @@ public:
 
 				}
 
-				if (repeatSong == true) {				
+				if (repeatSong == true) {
 					songQueue.push(songQueue.front());
 				}
 
@@ -299,7 +298,7 @@ public:
 		}
 
 		case 3: {
-		
+
 			songChoice = -1;
 
 		}
@@ -313,7 +312,7 @@ public:
 		}
 
 		keyboardInUse = false;
-		
+
 	}
 
 	bool songQueueEmpty() {
@@ -329,28 +328,28 @@ int main()
 {
 	bool repeat{ true };
 
-	MusicPlayer3000 m;
+	MusicPlayer4000 m;
 
 	while (repeat) {
 
-			switch (m.menu()) {
+		switch (m.menu()) {
 
-				case 1:
-					m.viewLibrary();
-					break;
-				default:
-					repeat = false;
-
-			}
+		case 1:
+			m.viewLibrary();
+			break;
+		default:
+			repeat = false;
 
 		}
 
-
 	}
+
+
+}
 
 
 
 /* TODO -
 * Add songs to hashmap, where key is SongName + ArtistName, to make it faster to find?
-* Add GUI? 
+* Add GUI?
 */
