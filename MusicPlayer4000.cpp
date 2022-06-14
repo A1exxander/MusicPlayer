@@ -356,8 +356,8 @@ int main(){
 			case 1: 
 				m.viewLibrary();
 				break;
-			default: 
-				repeat = false;
+		 	default: 
+			  	repeat = false;
 		}
 
 	}
