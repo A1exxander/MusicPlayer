@@ -2,7 +2,7 @@
 #include <thread>
 #include <Windows.h>
 #include <mmsystem.h>
-#include <map>
+#include <unordered_map>
 #include <filesystem>
 #include <fstream>
 #include <queue>
@@ -17,7 +17,7 @@ class MusicPlayer4000 {
 private:
 
 	bool keyboardInUse{ false };
-	std::map<std::string, Song> library;
+	std::unordered_map<std::string, Song> library;
 	std::string folderPath{ "C:\\MusicPlayer4000\\" };
 	std::queue<Song> songQueue;
 
@@ -124,7 +124,7 @@ public:
 
 	}
 
-	void printLibrary(const std::map<std::string, Song>& library) const {
+	void printLibrary(const std::unordered_map<std::string, Song>& library) const {
 
 		int songNumber{ 1 };
 
@@ -231,7 +231,7 @@ public:
 
 	}
 
-	Song* getRandomSong(const std::map<std::string, Song>& library) const {
+	Song* getRandomSong(const std::unordered_map<std::string, Song>& library) const {
 
 		auto song = library.begin();
 		std::mt19937 mt;
@@ -249,7 +249,7 @@ public:
 
 	}
 
-	Song* selectSongWNumber(const std::map<std::string, Song>& library) const {
+	Song* selectSongWNumber(const std::unordered_map<std::string, Song>& library) const {
 
 		auto song = library.begin();
 		int songChoice{};
@@ -276,7 +276,7 @@ public:
 
 	}
 
-	Song* selectSongWName(std::map<std::string, Song>& library)  {
+	Song* selectSongWName(std::unordered_map<std::string, Song>& library)  {
 
 		std::string songName{ " " };
 		std::string artistName{ " " };
@@ -343,21 +343,23 @@ public:
 
 };
 
-int main(){
+int main()
+{
+	bool repeat{ true };
 
 	MusicPlayer4000 m;
-	
-	bool repeat{ true };
 
 	while (repeat) {
 
 		switch (m.menu()) {
 
-			case 1: 
-				m.viewLibrary();
-				break;
-		 	default: 
-			  	repeat = false;
+		case 1: {
+			m.viewLibrary();
+			break;
+		}
+		default: {
+			repeat = false;
+		}
 		}
 
 	}
